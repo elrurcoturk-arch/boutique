@@ -1,4 +1,7 @@
 // Logique commune : chargement du catalogue, panier, paiement.
+document.documentElement.classList.add("js");
+// Filet de sécurité : si quelque chose échoue, tout s'affiche quand même.
+setTimeout(() => document.querySelectorAll(".reveal").forEach((e) => e.classList.add("in")), 4000);
 const Shop = (() => {
   let data = null;
   const KEY = "panier";
@@ -12,7 +15,20 @@ const Shop = (() => {
 
   const getCart = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
   const saveCart = (c) => { try { localStorage.setItem(KEY, JSON.stringify(c)); } catch {} renderCart(); };
-  const add = (id, qty = 1) => { const c = getCart(); c[id] = Math.min(99, (c[id] || 0) + qty); saveCart(c); toast("Ajouté au panier ✓"); };
+  const add = (id, qty = 1, btn) => {
+    const c = getCart(); c[id] = Math.min(99, (c[id] || 0) + qty); saveCart(c); toast("Ajouté au panier ✓");
+    document.querySelectorAll(".cart-btn .badge").forEach((b) => { b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump"); });
+    if (btn) { const t = btn.textContent; btn.classList.add("done"); btn.textContent = "✓ Ajouté"; setTimeout(() => { btn.classList.remove("done"); btn.textContent = t; }, 1300); }
+  };
+
+  // Fait apparaître en douceur les éléments .reveal quand ils arrivent à l'écran.
+  let io;
+  const reveal = (root = document) => {
+    const els = root.querySelectorAll(".reveal:not(.in)");
+    if (!("IntersectionObserver" in window)) return els.forEach((e) => e.classList.add("in"));
+    io ||= new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+    els.forEach((e) => io.observe(e));
+  };
   const setQty = (id, qty) => { const c = getCart(); if (qty <= 0) delete c[id]; else c[id] = Math.min(99, qty); saveCart(c); };
   const clear = () => saveCart({});
 
@@ -37,7 +53,7 @@ const Shop = (() => {
     const promo = p.ancienPrix && p.ancienPrix > p.prix;
     const tag = !p.stock ? `<span class="tag">Épuisé</span>` : p.badge ? `<span class="tag ${promo ? "promo" : ""}">${esc(p.badge)}</span>` : "";
     const btn = (cls) => p.stock ? `<button class="btn dark ${cls}" data-add="${esc(p.id)}">Ajouter au panier</button>` : "";
-    return `<article class="card">
+    return `<article class="card reveal">
       <a class="img" href="${url}">${tag}<img src="${esc(p.image)}" alt="${esc(p.nom)}" loading="lazy">${btn("quick")}</a>
       <div class="body">
         <div class="cat">${esc(p.categorie)}</div>
@@ -128,15 +144,17 @@ const Shop = (() => {
       const d = el.dataset;
       if ("open" in d) openCart(true);
       else if ("close" in d) openCart(false);
-      else if (d.add) { e.preventDefault(); add(d.add, Number(d.qty || 1)); }
+      else if (d.add) { e.preventDefault(); add(d.add, Number(d.qty || 1), el); }
       else if (d.inc) setQty(d.inc, (getCart()[d.inc] || 0) + 1);
       else if (d.dec) setQty(d.dec, (getCart()[d.dec] || 0) - 1);
       else if (d.rm) setQty(d.rm, 0);
     });
     document.addEventListener("keydown", (e) => e.key === "Escape" && openCart(false));
+    const head = document.querySelector("header.top");
+    addEventListener("scroll", () => head.classList.toggle("scrolled", scrollY > 10), { passive: true });
     renderCart();
     return data;
   };
 
-  return { init, fmt, esc, card, clear, openCart };
+  return { init, fmt, esc, card, clear, openCart, reveal };
 })();

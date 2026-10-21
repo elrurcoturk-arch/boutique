@@ -149,3 +149,45 @@ footer .legal{border-top:1px solid #4a423c;margin-top:36px;padding-top:20px;disp
   footer .cols>div:first-child{grid-column:1/-1}
 }
 @media(max-width:480px){.perks-strip .wrap{grid-template-columns:1fr 1fr;gap:14px}.perk .ic{width:36px;height:36px;font-size:1rem}.card h3{font-size:.95rem}}
+
+/* ---------- Photos & animations ---------- */
+.u{--ease:cubic-bezier(.2,.8,.2,1)}
+.photo{position:relative;border-radius:28px;overflow:hidden;background:#e9dccb}
+.photo img{width:100%;height:100%;object-fit:cover}
+.hero .photo{aspect-ratio:4/5;max-height:640px}
+.hero .photo img{animation:kenburns 18s ease-in-out infinite alternate}
+@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.08) translate(-1%,-1%)}}
+.float{position:absolute;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-radius:16px;padding:12px 16px;box-shadow:0 12px 30px rgba(43,38,34,.15);font-size:.88rem;display:flex;gap:10px;align-items:center;animation:floaty 5s ease-in-out infinite}
+.float b{display:block}
+.float span{color:var(--muted);font-size:.8rem}
+.float.f1{left:-18px;bottom:48px}
+.float.f2{right:18px;top:24px;animation-delay:-2.5s}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.marquee{overflow:hidden;background:var(--accent);color:#fff;padding:14px 0;white-space:nowrap}
+.marquee .track{display:inline-flex;gap:48px;animation:defile 28s linear infinite;padding-left:48px;font-family:var(--serif);font-size:1.15rem}
+@keyframes defile{to{transform:translateX(-50%)}}
+.looks{display:grid;grid-template-columns:2fr 1fr 1fr;gap:16px}
+.looks .photo{aspect-ratio:3/4}
+.looks .photo:first-child{aspect-ratio:auto;grid-row:span 1}
+.looks .photo img{transition:transform .8s var(--ease,ease)}
+.looks .photo:hover img{transform:scale(1.06)}
+.looks .cap{position:absolute;left:16px;bottom:16px;background:rgba(255,255,255,.92);border-radius:999px;padding:7px 14px;font-size:.85rem;font-weight:600}
+.story .photo{aspect-ratio:4/5}
+/* entrée de la page */
+.js .hero .anim{opacity:0;transform:translateY(22px);animation:up .9s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i,0)*.12s + .1s)}
+@keyframes up{to{opacity:1;transform:none}}
+/* apparition au défilement */
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d,0s)}
+.js .reveal.in{opacity:1;transform:none}
+header.top{transition:box-shadow .3s}
+header.top.scrolled{box-shadow:0 6px 24px rgba(43,38,34,.08)}
+.cart-btn .badge.bump{animation:bump .45s}
+@keyframes bump{40%{transform:scale(1.5)}}
+.btn.done{background:var(--sage)!important}
+@media(max-width:780px){
+  .hero .photo{aspect-ratio:4/4.2}
+  .float.f1{left:12px;bottom:12px}
+  .looks{grid-template-columns:1fr 1fr}
+  .looks .photo:first-child{grid-column:1/-1;aspect-ratio:4/3}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.js .reveal,.js .hero .anim{opacity:1;transform:none}}

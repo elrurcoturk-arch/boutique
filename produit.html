@@ -23,7 +23,7 @@ Shop.init().then(({ boutique: b, produits }) => {
   const promo = p.ancienPrix && p.ancienPrix > p.prix;
   let q = 1;
   box.innerHTML = `
-    <div class="pic">${p.badge && p.stock ? `<span class="tag ${promo ? "promo" : ""}">${esc(p.badge)}</span>` : ""}<img src="${esc(p.image)}" alt="${esc(p.nom)}"></div>
+    <div class="pic reveal in">${p.badge && p.stock ? `<span class="tag ${promo ? "promo" : ""}">${esc(p.badge)}</span>` : ""}<img src="${esc(p.image)}" alt="${esc(p.nom)}"></div>
     <div>
       <a href="index.html#boutique" class="back">← Retour à la boutique</a>
       <div class="cat" style="margin-top:18px">${esc(p.categorie)}</div>
@@ -42,6 +42,7 @@ Shop.init().then(({ boutique: b, produits }) => {
     </div>`;
   const autres = produits.filter((x) => x.id !== p.id && x.stock).slice(0, 4);
   document.getElementById("more").innerHTML = `<div class="head"><h2>Vous aimerez aussi</h2></div><div class="grid">${autres.map(card).join("")}</div>`;
+  Shop.reveal();
   if (!p.stock) return;
   const set = (n) => { q = Math.max(1, Math.min(99, n)); document.getElementById("q").textContent = q; document.getElementById("add").dataset.qty = q; };
   document.getElementById("m").onclick = () => set(q - 1);

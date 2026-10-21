@@ -12,28 +12,43 @@
 <main>
   <section class="wrap hero">
     <div>
-      <span class="eyebrow" id="eyebrow">Nouvelle collection</span>
-      <h1>La maison <em>cosy</em>, sans compromis.</h1>
-      <p id="slogan"></p>
-      <div class="ctas"><a class="btn" href="#boutique">Découvrir la boutique</a><a class="btn ghost" href="#faq">Comment ça marche</a></div>
-      <div class="stats" id="stats"></div>
+      <span class="eyebrow anim" style="--i:0" id="eyebrow">Nouvelle collection</span>
+      <h1 class="anim" style="--i:1">La maison <em>cosy</em>, sans compromis.</h1>
+      <p class="anim" style="--i:2" id="slogan"></p>
+      <div class="ctas anim" style="--i:3"><a class="btn" href="#boutique">Découvrir la boutique</a><a class="btn ghost" href="#faq">Comment ça marche</a></div>
+      <div class="stats anim" style="--i:4" id="stats"></div>
     </div>
-    <div class="art"><img src="images/hero.svg" alt=""></div>
+    <div class="art anim" style="--i:2;position:relative">
+      <div class="photo"><img src="https://images.unsplash.com/photo-1669387448840-610c588f003d?auto=format&fit=crop&w=1100&q=75" alt="Salon lumineux et décoré" onerror="this.onerror=null;this.src='images/hero.svg'"></div>
+      <div class="float f1">🚚<div><b>Livraison offerte</b><span id="f1"></span></div></div>
+      <div class="float f2">🔒<div><b>Paiement sécurisé</b><span>CB · Apple Pay</span></div></div>
+    </div>
   </section>
+
+  <div class="marquee" aria-hidden="true"><div class="track" id="marquee"></div></div>
 
   <div class="perks-strip"><div class="wrap" id="perks"></div></div>
 
   <section class="block wrap" id="boutique">
-    <div class="head">
+    <div class="head reveal">
       <div><h2>Nos produits</h2><p>Sélectionnés pour leur qualité et leur style.</p></div>
       <div class="filters" id="filters"></div>
     </div>
     <div class="grid" id="grid"></div>
   </section>
 
+  <section class="wrap" style="padding-bottom:72px">
+    <div class="head reveal"><div><h2>Inspirations</h2><p>Des idées pour composer votre intérieur.</p></div><a class="btn ghost" href="#boutique">Voir tout</a></div>
+    <div class="looks">
+      <div class="photo reveal"><img src="https://images.unsplash.com/photo-1631125915902-d8abe9225ff2?auto=format&fit=crop&w=900&q=75" alt="Vases en terre cuite" loading="lazy" onerror="this.onerror=null;this.src='images/vase.svg'"><span class="cap">Terre &amp; argile</span></div>
+      <div class="photo reveal" style="--d:.1s"><img src="https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?auto=format&fit=crop&w=700&q=75" alt="Vase blanc sur table en bois" loading="lazy" onerror="this.onerror=null;this.src='images/coussin.svg'"><span class="cap">Douceur</span></div>
+      <div class="photo reveal" style="--d:.2s"><img src="https://images.unsplash.com/photo-1572048572872-2394404cf1f3?auto=format&fit=crop&w=700&q=75" alt="Vase blanc et objets déco" loading="lazy" onerror="this.onerror=null;this.src='images/bougie.svg'"><span class="cap">Minimal</span></div>
+    </div>
+  </section>
+
   <section class="wrap">
-    <div class="story">
-      <img src="images/vase.svg" alt="">
+    <div class="story reveal">
+      <div class="photo"><img src="https://images.unsplash.com/photo-1631125915902-d8abe9225ff2?auto=format&fit=crop&w=900&q=75" alt="Vases en terre cuite" loading="lazy" onerror="this.onerror=null;this.src='images/vase.svg'"></div>
       <div>
         <span class="eyebrow">Notre promesse</span>
         <h2>Des objets choisis avec soin, livrés chez vous.</h2>
@@ -45,8 +60,8 @@
   </section>
 
   <section class="block wrap" id="faq">
-    <div class="head" style="justify-content:center;text-align:center"><div><h2>Questions fréquentes</h2></div></div>
-    <div class="faq" id="faqlist"></div>
+    <div class="head reveal" style="justify-content:center;text-align:center"><div><h2>Questions fréquentes</h2></div></div>
+    <div class="faq reveal" id="faqlist"></div>
   </section>
 </main>
 <script src="app.js"></script>
@@ -54,13 +69,16 @@
 Shop.init().then(({ boutique: b, produits }) => {
   const { fmt, esc, card } = Shop;
   document.getElementById("slogan").textContent = b.slogan;
+  document.getElementById("f1").textContent = `dès ${fmt(b.livraisonGratuiteDes)}`;
+  const mots = ["Livraison offerte dès " + fmt(b.livraisonGratuiteDes), "Retours " + b.retours + " jours", "Paiement sécurisé", "Service client réactif", "Nouveautés chaque mois"];
+  document.getElementById("marquee").innerHTML = [...mots, ...mots, ...mots, ...mots].map((m) => `<span>${m}</span><span>✦</span>`).join("");
   document.getElementById("stats").innerHTML = `<div><b>${fmt(b.livraisonGratuiteDes).replace(",00", "")}</b><span>livraison offerte dès</span></div><div><b>${b.retours} j</b><span>pour changer d'avis</span></div><div><b>100 %</b><span>paiement sécurisé</span></div>`;
   document.getElementById("perks").innerHTML = [
     ["🚚", "Livraison offerte", `dès ${fmt(b.livraisonGratuiteDes)} d'achat`],
     ["🔒", "Paiement sécurisé", "CB, Apple Pay, Google Pay"],
     ["↩️", `Retours ${b.retours} jours`, "Satisfait ou remboursé"],
     ["💬", "Service client", "Réponse sous 24 h"],
-  ].map(([i, t, s]) => `<div class="perk"><div class="ic">${i}</div><div><b>${t}</b><span>${s}</span></div></div>`).join("");
+  ].map(([i, t, s]) => `<div class="perk reveal"><div class="ic">${i}</div><div><b>${t}</b><span>${s}</span></div></div>`).join("");
   document.getElementById("promesse").innerHTML = [
     `Livraison suivie en ${esc(b.delaiLivraison)}`,
     `${b.retours} jours pour changer d'avis`,
@@ -79,7 +97,10 @@ Shop.init().then(({ boutique: b, produits }) => {
   let cur = new URLSearchParams(location.search).get("cat") || "Tout";
   const draw = () => {
     document.getElementById("filters").innerHTML = cats.map((c) => `<button class="${c === cur ? "on" : ""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
-    document.getElementById("grid").innerHTML = produits.filter((p) => cur === "Tout" || p.categorie === cur).map(card).join("");
+    const g = document.getElementById("grid");
+    g.innerHTML = produits.filter((p) => cur === "Tout" || p.categorie === cur).map(card).join("");
+    g.querySelectorAll(".card").forEach((c, i) => c.style.setProperty("--d", (i % 4) * 0.08 + "s"));
+    Shop.reveal();
   };
   document.getElementById("filters").addEventListener("click", (e) => { if (e.target.dataset.cat) { cur = e.target.dataset.cat; draw(); } });
   draw();
