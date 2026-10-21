@@ -12,7 +12,7 @@ const Shop = (() => {
 
   const getCart = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
   const saveCart = (c) => { try { localStorage.setItem(KEY, JSON.stringify(c)); } catch {} renderCart(); };
-  const add = (id, qty = 1) => { const c = getCart(); c[id] = Math.min(99, (c[id] || 0) + qty); saveCart(c); toast("Ajouté au panier"); };
+  const add = (id, qty = 1) => { const c = getCart(); c[id] = Math.min(99, (c[id] || 0) + qty); saveCart(c); toast("Ajouté au panier ✓"); };
   const setQty = (id, qty) => { const c = getCart(); if (qty <= 0) delete c[id]; else c[id] = Math.min(99, qty); saveCart(c); };
   const clear = () => saveCart({});
 
@@ -31,29 +31,50 @@ const Shop = (() => {
     return { lines, sub, ship, total: sub + ship, count: lines.reduce((s, l) => s + l.q, 0) };
   };
 
+  // Carte produit réutilisée par l'accueil et la fiche produit.
+  const card = (p) => {
+    const url = `produit.html?id=${encodeURIComponent(p.id)}`;
+    const promo = p.ancienPrix && p.ancienPrix > p.prix;
+    const tag = !p.stock ? `<span class="tag">Épuisé</span>` : p.badge ? `<span class="tag ${promo ? "promo" : ""}">${esc(p.badge)}</span>` : "";
+    const btn = (cls) => p.stock ? `<button class="btn dark ${cls}" data-add="${esc(p.id)}">Ajouter au panier</button>` : "";
+    return `<article class="card">
+      <a class="img" href="${url}">${tag}<img src="${esc(p.image)}" alt="${esc(p.nom)}" loading="lazy">${btn("quick")}</a>
+      <div class="body">
+        <div class="cat">${esc(p.categorie)}</div>
+        <h3><a href="${url}">${esc(p.nom)}</a></h3>
+        <span class="price">${fmt(p.prix)}</span>${promo ? `<span class="old">${fmt(p.ancienPrix)}</span>` : ""}
+        ${btn("mob")}
+      </div>
+    </article>`;
+  };
+
   const renderCart = () => {
     if (!data) return;
-    const t = totals();
+    const t = totals(); const b = data.boutique;
     document.querySelectorAll("[data-count]").forEach((el) => { el.textContent = t.count; el.hidden = !t.count; });
     const box = document.querySelector(".items");
     if (!box) return;
+    const reste = b.livraisonGratuiteDes - t.sub;
+    document.querySelector(".progress").innerHTML = t.count
+      ? `${reste > 0 ? `Plus que <b>${fmt(reste)}</b> pour la livraison offerte` : `🎉 La livraison est <b>offerte</b>`}<div class="bar"><i style="width:${Math.min(100, (t.sub / b.livraisonGratuiteDes) * 100)}%"></i></div>`
+      : "";
     box.innerHTML = t.lines.length ? t.lines.map(({ p, q }) => `
       <div class="item">
         <img src="${esc(p.image)}" alt="">
         <div><div class="n">${esc(p.nom)}</div><div class="muted">${fmt(p.prix)}</div>
-          <div class="qty" style="margin-top:6px"><button data-dec="${esc(p.id)}" aria-label="Moins">−</button><span>${q}</span><button data-inc="${esc(p.id)}" aria-label="Plus">+</button></div></div>
+          <div class="qty" style="margin-top:8px"><button data-dec="${esc(p.id)}" aria-label="Moins">−</button><span>${q}</span><button data-inc="${esc(p.id)}" aria-label="Plus">+</button></div></div>
         <div style="text-align:right"><div class="n">${fmt(p.prix * q)}</div><button class="rm" data-rm="${esc(p.id)}">Retirer</button></div>
-      </div>`).join("") : `<div class="empty">Votre panier est vide.</div>`;
-    const b = data.boutique;
-    document.querySelector(".foot").innerHTML = `
+      </div>`).join("") : `<div class="empty"><div class="big">🛍️</div><p>Votre panier est vide.</p><button class="btn" data-close>Découvrir la boutique</button></div>`;
+    document.querySelector(".foot").innerHTML = t.count ? `
       <div class="line"><span>Sous-total</span><span>${fmt(t.sub)}</span></div>
       <div class="line"><span>Livraison</span><span>${t.ship ? fmt(t.ship) : "Offerte"}</span></div>
-      ${t.sub && t.sub < b.livraisonGratuiteDes ? `<div class="muted">Plus que ${fmt(b.livraisonGratuiteDes - t.sub)} pour la livraison offerte</div>` : ""}
-      <div class="line total"><span>Total</span><span>${fmt(t.total)}</span></div>
-      <button class="btn" id="pay" ${t.count ? "" : "disabled"}>Payer en toute sécurité</button>
-      <div class="muted center">Paiement sécurisé par Stripe · CB, Apple Pay, Google Pay</div>
-      <div class="err" id="payerr"></div>`;
-    document.getElementById("pay").onclick = checkout;
+      <div class="line total"><span>Total TTC</span><span>${fmt(t.total)}</span></div>
+      <button class="btn" id="pay">🔒 Payer en toute sécurité</button>
+      <div class="muted" style="text-align:center">Carte bancaire · Apple Pay · Google Pay — paiement sécurisé par Stripe</div>
+      <div class="muted" style="text-align:center">Livraison estimée : ${esc(b.delaiLivraison)}</div>
+      <div class="err" id="payerr"></div>` : "";
+    const pay = document.getElementById("pay");
+    if (pay) pay.onclick = checkout;
   };
 
   const checkout = async () => {
@@ -66,7 +87,7 @@ const Shop = (() => {
       if (!r.ok || !j.url) throw new Error(j.error || "Le paiement n'est pas encore activé sur cette boutique.");
       location.href = j.url;
     } catch (e) {
-      err.textContent = e.message; btn.disabled = false; btn.textContent = "Payer en toute sécurité";
+      err.textContent = e.message; btn.disabled = false; btn.textContent = "🔒 Payer en toute sécurité";
     }
   };
 
@@ -79,22 +100,35 @@ const Shop = (() => {
   const init = async () => {
     await load();
     const b = data.boutique;
-    document.title = document.title ? `${document.title} · ${b.nom}` : b.nom;
+    document.title = document.title ? `${document.title} · ${b.nom}` : `${b.nom} · ${b.slogan}`;
+    const cats = [...new Set(data.produits.map((p) => p.categorie))];
     document.body.insertAdjacentHTML("afterbegin", `
-      <div class="banner">Livraison offerte dès ${fmt(b.livraisonGratuiteDes)} d'achat</div>
-      <header><div class="wrap"><a class="logo" href="index.html">${esc(b.nom)}</a>
-        <button class="cart-btn" data-open>Panier<span class="badge" data-count hidden>0</span></button></div></header>`);
+      <div class="banner">✦ Livraison offerte dès ${fmt(b.livraisonGratuiteDes)} · Retours sous ${b.retours} jours ✦</div>
+      <header class="top"><div class="wrap">
+        <a class="logo" href="index.html">${esc(b.nom)}</a>
+        <nav class="menu"><a href="index.html#boutique">Boutique</a>${cats.slice(0, 3).map((c) => `<a href="index.html?cat=${encodeURIComponent(c)}#boutique">${esc(c)}</a>`).join("")}<a href="index.html#faq">Aide</a></nav>
+        <button class="cart-btn" data-open>Panier <span class="badge" data-count hidden>0</span></button>
+      </div></header>`);
     document.body.insertAdjacentHTML("beforeend", `
-      <footer><div class="wrap"><span>© ${new Date().getFullYear()} ${esc(b.nom)}</span>
-        <span><a href="mentions.html">Mentions légales & CGV</a> · <a href="mailto:${esc(b.email)}">${esc(b.email)}</a></span></div></footer>
+      <footer><div class="wrap">
+        <div class="cols">
+          <div><a class="logo" href="index.html">${esc(b.nom)}</a><p style="max-width:28em">${esc(b.slogan)}</p>
+            <div class="pay"><span>VISA</span><span>Mastercard</span><span>CB</span><span>Apple Pay</span><span>Google Pay</span></div></div>
+          <div><h4>Boutique</h4>${cats.map((c) => `<a href="index.html?cat=${encodeURIComponent(c)}#boutique">${esc(c)}</a>`).join("")}</div>
+          <div><h4>Informations</h4><a href="index.html#faq">Questions fréquentes</a><a href="cgv.html">Livraison & retours (CGV)</a><a href="mentions.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="mailto:${esc(b.email)}">Nous contacter</a></div>
+        </div>
+        <div class="legal"><span>© ${new Date().getFullYear()} ${esc(b.nom)}. Tous droits réservés.</span><span>Paiements sécurisés par Stripe</span></div>
+      </div></footer>
       <div class="overlay" data-close></div>
-      <aside class="drawer" aria-label="Panier"><header><h2>Votre panier</h2><button class="x" data-close aria-label="Fermer">×</button></header>
-        <div class="items"></div><div class="foot"></div></aside>`);
+      <aside class="drawer" aria-label="Panier"><div class="dh"><h2>Votre panier</h2><button class="x" data-close aria-label="Fermer">×</button></div>
+        <div class="progress"></div><div class="items"></div><div class="foot"></div></aside>`);
     document.addEventListener("click", (e) => {
-      const d = e.target.dataset;
+      const el = e.target.closest("[data-open],[data-close],[data-add],[data-inc],[data-dec],[data-rm]");
+      if (!el) return;
+      const d = el.dataset;
       if ("open" in d) openCart(true);
       else if ("close" in d) openCart(false);
-      else if (d.add) { add(d.add, Number(d.qty || 1)); }
+      else if (d.add) { e.preventDefault(); add(d.add, Number(d.qty || 1)); }
       else if (d.inc) setQty(d.inc, (getCart()[d.inc] || 0) + 1);
       else if (d.dec) setQty(d.dec, (getCart()[d.dec] || 0) - 1);
       else if (d.rm) setQty(d.rm, 0);
@@ -104,5 +138,5 @@ const Shop = (() => {
     return data;
   };
 
-  return { init, fmt, esc, clear, openCart };
+  return { init, fmt, esc, card, clear, openCart };
 })();

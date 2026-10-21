@@ -2,18 +2,20 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Merci pour votre commande</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<title>Merci pour votre commande</title>
 </head>
 <body>
 <main class="wrap page center" style="margin:0 auto">
-  <div style="font-size:4rem">✅</div>
+  <div style="font-size:4rem">🎉</div>
   <h1>Merci pour votre commande !</h1>
-  <p>Votre paiement a bien été reçu. Vous allez recevoir un e-mail de confirmation avec le récapitulatif de votre commande.</p>
-  <p class="muted">Une question ? Écrivez-nous, nous répondons sous 24 h.</p>
-  <a class="btn" href="index.html">Continuer mes achats</a>
+  <p>Votre paiement a bien été reçu. Vous allez recevoir un e-mail de confirmation, puis votre numéro de suivi dès l'expédition.</p>
+  <p class="muted">Livraison estimée : <b data-b="delaiLivraison"></b>. Une question ? Écrivez-nous à <span data-b="email"></span>.</p>
+  <p><a class="btn" href="index.html">Continuer mes achats</a></p>
 </main>
 <script src="app.js"></script>
-<script>Shop.init().then(() => Shop.clear());</script>
+<script>Shop.init().then(({ boutique: b }) => { Shop.clear(); document.querySelectorAll("[data-b]").forEach((el) => (el.textContent = b[el.dataset.b])); });</script>
 </body>
 </html>

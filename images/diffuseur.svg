@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><rect width="600" height="600" fill="#e3e4ea"/><circle cx="470" cy="150" r="90" fill="#d5d7e0"/><ellipse cx="300" cy="500" rx="170" ry="22" fill="#000" opacity=".08"/>
+<g stroke="#5b4636" stroke-width="5" stroke-linecap="round"><path d="M300 300L230 90"/><path d="M300 300L270 70"/><path d="M300 300L330 75"/><path d="M300 300L375 95"/><path d="M300 300L300 60"/></g>
+<rect x="270" y="260" width="60" height="50" rx="8" fill="#2b2622"/><path d="M215 330c0-25 25-30 85-30s85 5 85 30v120c0 35-25 55-85 55s-85-20-85-55z" fill="#b9a68f" opacity=".85"/><path d="M215 390h170v60c0 35-25 55-85 55s-85-20-85-55z" fill="#9b8065" opacity=".9"/>
+<rect x="245" y="345" width="110" height="60" rx="6" fill="#f7f1ea"/><text x="300" y="382" font-family="Georgia,serif" font-size="22" fill="#2b2622" text-anchor="middle">NOVA</text></svg>

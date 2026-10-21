@@ -1,19 +1,137 @@
 {
   "boutique": {
-    "nom": "Ma Boutique",
-    "slogan": "Des produits de qualité, livrés chez vous",
+    "nom": "NOVA",
+    "slogan": "Des objets simples et beaux pour une maison qui vous ressemble.",
     "devise": "eur",
-    "email": "contact@maboutique.fr",
+    "email": "contact@nova-maison.fr",
     "livraisonGratuiteDes": 50,
     "fraisLivraison": 4.9,
-    "paysLivraison": ["FR", "BE", "CH", "LU"]
+    "paysLivraison": [
+      "FR",
+      "BE",
+      "CH",
+      "LU"
+    ],
+    "delaiLivraison": "7 à 12 jours ouvrés",
+    "retours": 14
   },
   "produits": [
-    { "id": "tshirt-classique", "nom": "T-shirt Classique", "prix": 24.9, "categorie": "Vêtements", "image": "images/tshirt.svg", "description": "T-shirt 100% coton bio, coupe droite, doux et résistant. Idéal au quotidien.", "stock": true },
-    { "id": "sweat-capuche", "nom": "Sweat à capuche", "prix": 49.9, "categorie": "Vêtements", "image": "images/sweat.svg", "description": "Sweat molletonné avec capuche et poche kangourou. Chaud et confortable.", "stock": true },
-    { "id": "casquette", "nom": "Casquette brodée", "prix": 19.9, "categorie": "Accessoires", "image": "images/casquette.svg", "description": "Casquette ajustable avec logo brodé. Taille unique.", "stock": true },
-    { "id": "mug", "nom": "Mug céramique", "prix": 14.9, "categorie": "Maison", "image": "images/mug.svg", "description": "Mug en céramique 330 ml, passe au lave-vaisselle et au micro-ondes.", "stock": true },
-    { "id": "tote-bag", "nom": "Tote bag", "prix": 12.9, "categorie": "Accessoires", "image": "images/totebag.svg", "description": "Sac en toile épaisse, grand format, anses longues.", "stock": true },
-    { "id": "bougie", "nom": "Bougie parfumée", "prix": 22.0, "categorie": "Maison", "image": "images/bougie.svg", "description": "Bougie en cire végétale, 40 heures de combustion, parfum vanille.", "stock": false }
+    {
+      "id": "bougie-vanille",
+      "nom": "Bougie Vanille & Ambre",
+      "prix": 24.9,
+      "ancienPrix": 29.9,
+      "badge": "Best-seller",
+      "categorie": "Bougies",
+      "image": "images/bougie.svg",
+      "description": "Bougie en cire de soja, mèche en coton, 45 heures de combustion. Notes chaudes de vanille de Madagascar et d'ambre.",
+      "details": [
+        "Cire 100 % végétale",
+        "Pot en verre réutilisable",
+        "220 g · 45 h"
+      ],
+      "stock": true
+    },
+    {
+      "id": "mug-sauge",
+      "nom": "Mug Céramique Sauge",
+      "prix": 18.0,
+      "badge": "Nouveau",
+      "categorie": "Art de la table",
+      "image": "images/mug.svg",
+      "description": "Mug en grès émaillé aux finitions mates, agréable en main.",
+      "details": [
+        "Grès émaillé",
+        "350 ml",
+        "Lave-vaisselle et micro-ondes"
+      ],
+      "stock": true
+    },
+    {
+      "id": "vase-terracotta",
+      "nom": "Vase Terracotta",
+      "prix": 39.0,
+      "categorie": "Déco",
+      "image": "images/vase.svg",
+      "description": "Vase aux courbes douces en terre cuite, parfait pour les fleurs séchées. Fleurs non incluses.",
+      "details": [
+        "Terre cuite émaillée intérieur",
+        "Hauteur 24 cm",
+        "Étanche"
+      ],
+      "stock": true
+    },
+    {
+      "id": "plaid-laine",
+      "nom": "Plaid Rayé en Laine",
+      "prix": 69.0,
+      "ancienPrix": 85.0,
+      "badge": "-19 %",
+      "categorie": "Textile",
+      "image": "images/plaid.svg",
+      "description": "Plaid épais et doux, tissé en laine recyclée. Idéal pour les soirées d'hiver sur le canapé.",
+      "details": [
+        "70 % laine recyclée",
+        "130 × 170 cm",
+        "Lavage délicat 30°"
+      ],
+      "stock": true
+    },
+    {
+      "id": "diffuseur",
+      "nom": "Diffuseur Bois de Cèdre",
+      "prix": 32.0,
+      "categorie": "Bougies",
+      "image": "images/diffuseur.svg",
+      "description": "Diffuseur à bâtonnets pour parfumer votre intérieur pendant 3 mois, sans flamme.",
+      "details": [
+        "100 ml · 8 bâtonnets en rotin",
+        "Environ 3 mois"
+      ],
+      "stock": true
+    },
+    {
+      "id": "coussin-soleil",
+      "nom": "Coussin Soleil",
+      "prix": 34.0,
+      "badge": "Nouveau",
+      "categorie": "Textile",
+      "image": "images/coussin.svg",
+      "description": "Housse de coussin en coton brodé, couleur moutarde, avec garnissage moelleux.",
+      "details": [
+        "100 % coton",
+        "45 × 45 cm",
+        "Housse déhoussable"
+      ],
+      "stock": true
+    },
+    {
+      "id": "carafe",
+      "nom": "Carafe & Verre",
+      "prix": 29.0,
+      "categorie": "Art de la table",
+      "image": "images/carafe.svg",
+      "description": "Carafe en verre soufflé avec son verre assorti, pour la table de chevet ou le bureau.",
+      "details": [
+        "Verre borosilicaté",
+        "1 L + verre 25 cl",
+        "Lave-vaisselle"
+      ],
+      "stock": true
+    },
+    {
+      "id": "tote-bag",
+      "nom": "Tote Bag NOVA",
+      "prix": 15.0,
+      "categorie": "Déco",
+      "image": "images/totebag.svg",
+      "description": "Grand sac en toile de coton épaisse, pour le marché ou le quotidien.",
+      "details": [
+        "Coton bio 340 g/m²",
+        "38 × 42 cm",
+        "Anses longues"
+      ],
+      "stock": false
+    }
   ]
 }

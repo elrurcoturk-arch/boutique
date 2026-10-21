@@ -2,36 +2,84 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title></title>
-<meta name="description" content="Boutique en ligne">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<title></title>
+<meta name="description" content="Boutique en ligne : décoration et objets pour la maison. Livraison offerte dès 50 €, paiement sécurisé.">
 </head>
 <body>
-<main class="wrap">
-  <section class="hero"><h1 id="nom"></h1><p id="slogan"></p></section>
-  <div class="filters" id="filters"></div>
-  <section class="grid" id="grid"></section>
+<main>
+  <section class="wrap hero">
+    <div>
+      <span class="eyebrow" id="eyebrow">Nouvelle collection</span>
+      <h1>La maison <em>cosy</em>, sans compromis.</h1>
+      <p id="slogan"></p>
+      <div class="ctas"><a class="btn" href="#boutique">Découvrir la boutique</a><a class="btn ghost" href="#faq">Comment ça marche</a></div>
+      <div class="stats" id="stats"></div>
+    </div>
+    <div class="art"><img src="images/hero.svg" alt=""></div>
+  </section>
+
+  <div class="perks-strip"><div class="wrap" id="perks"></div></div>
+
+  <section class="block wrap" id="boutique">
+    <div class="head">
+      <div><h2>Nos produits</h2><p>Sélectionnés pour leur qualité et leur style.</p></div>
+      <div class="filters" id="filters"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="wrap">
+    <div class="story">
+      <img src="images/vase.svg" alt="">
+      <div>
+        <span class="eyebrow">Notre promesse</span>
+        <h2>Des objets choisis avec soin, livrés chez vous.</h2>
+        <p>Nous sélectionnons chaque produit pour son design et sa qualité, et nous vous indiquons toujours un délai de livraison réaliste.</p>
+        <ul id="promesse"></ul>
+        <p style="margin-top:24px"><a class="btn dark" href="#boutique">Voir les produits</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block wrap" id="faq">
+    <div class="head" style="justify-content:center;text-align:center"><div><h2>Questions fréquentes</h2></div></div>
+    <div class="faq" id="faqlist"></div>
+  </section>
 </main>
 <script src="app.js"></script>
 <script>
-Shop.init().then(({ boutique, produits }) => {
-  const { fmt, esc } = Shop;
-  document.getElementById("nom").textContent = boutique.nom;
-  document.getElementById("slogan").textContent = boutique.slogan;
+Shop.init().then(({ boutique: b, produits }) => {
+  const { fmt, esc, card } = Shop;
+  document.getElementById("slogan").textContent = b.slogan;
+  document.getElementById("stats").innerHTML = `<div><b>${fmt(b.livraisonGratuiteDes).replace(",00", "")}</b><span>livraison offerte dès</span></div><div><b>${b.retours} j</b><span>pour changer d'avis</span></div><div><b>100 %</b><span>paiement sécurisé</span></div>`;
+  document.getElementById("perks").innerHTML = [
+    ["🚚", "Livraison offerte", `dès ${fmt(b.livraisonGratuiteDes)} d'achat`],
+    ["🔒", "Paiement sécurisé", "CB, Apple Pay, Google Pay"],
+    ["↩️", `Retours ${b.retours} jours`, "Satisfait ou remboursé"],
+    ["💬", "Service client", "Réponse sous 24 h"],
+  ].map(([i, t, s]) => `<div class="perk"><div class="ic">${i}</div><div><b>${t}</b><span>${s}</span></div></div>`).join("");
+  document.getElementById("promesse").innerHTML = [
+    `Livraison suivie en ${esc(b.delaiLivraison)}`,
+    `${b.retours} jours pour changer d'avis`,
+    "Paiement 100 % sécurisé, aucune donnée bancaire stockée",
+    "Un vrai service client qui répond",
+  ].map((x) => `<li>${x}</li>`).join("");
+  document.getElementById("faqlist").innerHTML = [
+    ["Quels sont les délais de livraison ?", `Votre commande est préparée puis expédiée avec suivi. Comptez ${esc(b.delaiLivraison)} pour la recevoir. Vous recevez le numéro de suivi par e-mail dès l'expédition.`],
+    ["Combien coûte la livraison ?", `La livraison coûte ${fmt(b.fraisLivraison)} et elle est offerte dès ${fmt(b.livraisonGratuiteDes)} d'achat.`],
+    ["Puis-je retourner un article ?", `Oui, vous disposez de ${b.retours} jours après réception pour nous retourner un article, sans avoir à vous justifier. Écrivez-nous à ${esc(b.email)}.`],
+    ["Le paiement est-il sécurisé ?", "Oui. Le paiement est traité par Stripe, leader mondial du paiement en ligne. Nous n'avons jamais accès à vos coordonnées bancaires."],
+    ["Comment vous contacter ?", `Par e-mail à <a href="mailto:${esc(b.email)}">${esc(b.email)}</a>, nous répondons sous 24 h.`],
+  ].map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join("");
+
   const cats = ["Tout", ...new Set(produits.map((p) => p.categorie))];
-  let cur = "Tout";
+  let cur = new URLSearchParams(location.search).get("cat") || "Tout";
   const draw = () => {
     document.getElementById("filters").innerHTML = cats.map((c) => `<button class="${c === cur ? "on" : ""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
-    document.getElementById("grid").innerHTML = produits.filter((p) => cur === "Tout" || p.categorie === cur).map((p) => `
-      <article class="card">
-        <a class="img" href="produit.html?id=${encodeURIComponent(p.id)}"><img src="${esc(p.image)}" alt="${esc(p.nom)}" loading="lazy"></a>
-        <div class="body">
-          <span class="cat">${esc(p.categorie)}</span>
-          <h3><a href="produit.html?id=${encodeURIComponent(p.id)}">${esc(p.nom)}</a></h3>
-          <span class="price">${fmt(p.prix)}</span>
-          ${p.stock ? `<button class="btn" data-add="${esc(p.id)}">Ajouter au panier</button>` : `<span class="out">Rupture de stock</span><button class="btn" disabled>Indisponible</button>`}
-        </div>
-      </article>`).join("");
+    document.getElementById("grid").innerHTML = produits.filter((p) => cur === "Tout" || p.categorie === cur).map(card).join("");
   };
   document.getElementById("filters").addEventListener("click", (e) => { if (e.target.dataset.cat) { cur = e.target.dataset.cat; draw(); } });
   draw();

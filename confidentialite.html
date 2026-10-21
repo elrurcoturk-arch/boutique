@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<title>Politique de confidentialité</title>
+</head>
+<body>
+<main class="wrap page">
+  <h1>Politique de confidentialité</h1>
+  <h3>Responsable du traitement</h3>
+  <p>[Prénom Nom], <span data-b="nom"></span> — <span data-b="email"></span>.</p>
+  <h3>Données collectées</h3>
+  <p>Lors d'une commande : nom, adresse de livraison, e-mail, téléphone et produits commandés. Les données de carte bancaire sont saisies directement chez Stripe : nous n'y avons jamais accès. Ce site n'utilise pas de cookies publicitaires ; le panier est enregistré uniquement dans votre navigateur.</p>
+  <h3>Pourquoi</h3>
+  <p>Uniquement pour traiter et livrer votre commande, répondre à vos demandes et respecter nos obligations comptables.</p>
+  <h3>Destinataires</h3>
+  <p>Stripe (paiement), notre fournisseur et ses transporteurs (préparation et livraison de la commande : nom, adresse, téléphone), Vercel (hébergement du site). Certains de ces prestataires peuvent traiter des données hors de l'Union européenne, avec les garanties prévues par le RGPD.</p>
+  <h3>Durée de conservation</h3>
+  <p>Les données de commande sont conservées 10 ans pour les obligations comptables, puis supprimées.</p>
+  <h3>Vos droits</h3>
+  <p>Vous pouvez demander l'accès, la rectification ou la suppression de vos données en écrivant à <span data-b="email"></span>. Vous pouvez aussi saisir la CNIL (cnil.fr).</p>
+</main>
+<script src="app.js"></script>
+<script>Shop.init().then(({ boutique: b }) => document.querySelectorAll("[data-b]").forEach((el) => (el.textContent = b[el.dataset.b])));</script>
+</body>
+</html>

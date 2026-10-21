@@ -2,28 +2,27 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mentions légales et CGV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<title>Mentions légales</title>
 </head>
 <body>
 <main class="wrap page">
   <!-- À COMPLÉTER : remplace tout ce qui est entre [crochets] par tes vraies informations. -->
   <h1>Mentions légales</h1>
-  <p><strong>Éditeur du site :</strong> [Nom Prénom ou nom de la société], [statut : micro-entreprise, SAS…], [adresse], SIRET [numéro].</p>
-  <p><strong>Contact :</strong> [e-mail] · [téléphone]</p>
-  <p><strong>Hébergeur :</strong> Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis.</p>
-  <p><strong>Paiements :</strong> traités par Stripe. Aucune donnée bancaire n'est stockée sur ce site.</p>
-
-  <h1>Conditions générales de vente</h1>
-  <h3>1. Prix</h3><p>Les prix sont indiqués en euros TTC [ou « TVA non applicable, art. 293 B du CGI » si micro-entreprise]. Les frais de livraison sont indiqués avant le paiement.</p>
-  <h3>2. Commande et paiement</h3><p>La commande est ferme après le paiement en ligne par carte bancaire via Stripe. Un e-mail de confirmation est envoyé.</p>
-  <h3>3. Livraison</h3><p>Expédition sous [2] jours ouvrés en France, Belgique, Suisse et Luxembourg. Délai indicatif de [3 à 5] jours.</p>
-  <h3>4. Droit de rétractation</h3><p>Vous disposez de 14 jours après réception pour retourner un article sans avoir à vous justifier. Le remboursement intervient sous 14 jours après réception du retour.</p>
-  <h3>5. Garanties</h3><p>Les produits bénéficient de la garantie légale de conformité et de la garantie des vices cachés.</p>
-  <h3>6. Données personnelles</h3><p>Vos données (nom, adresse, e-mail) servent uniquement à traiter votre commande. Vous pouvez demander leur suppression à [e-mail].</p>
-  <h3>7. Litiges</h3><p>En cas de litige, vous pouvez recourir gratuitement au médiateur de la consommation : [nom du médiateur].</p>
+  <h3>Éditeur du site</h3>
+  <p>[Prénom Nom], entrepreneur individuel (micro-entreprise)<br>Nom commercial : <span data-b="nom"></span><br>Adresse : [adresse postale complète]<br>SIRET : [numéro SIRET]<br>E-mail : <span data-b="email"></span> · Téléphone : [numéro]<br>TVA : [TVA non applicable, art. 293 B du CGI]</p>
+  <p>Directeur de la publication : [Prénom Nom]</p>
+  <h3>Hébergement</h3>
+  <p>Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis — vercel.com</p>
+  <h3>Paiements</h3>
+  <p>Les paiements sont traités par Stripe Payments Europe Ltd. Aucune donnée bancaire n'est stockée sur ce site.</p>
+  <h3>Propriété intellectuelle</h3>
+  <p>Les textes, logos et éléments graphiques de ce site sont protégés. Toute reproduction sans autorisation est interdite.</p>
+  <p><a href="cgv.html">Conditions générales de vente</a> · <a href="confidentialite.html">Politique de confidentialité</a></p>
 </main>
 <script src="app.js"></script>
-<script>Shop.init();</script>
+<script>Shop.init().then(({ boutique: b }) => document.querySelectorAll("[data-b]").forEach((el) => (el.textContent = b[el.dataset.b])));</script>
 </body>
 </html>

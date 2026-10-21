@@ -2,33 +2,46 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Produit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<title>Produit</title>
 </head>
 <body>
-<main class="wrap"><section class="product" id="p"></section></main>
+<main class="wrap">
+  <section class="product" id="p"></section>
+  <section class="block" style="padding-top:0" id="more"></section>
+</main>
 <script src="app.js"></script>
 <script>
-Shop.init().then(({ produits }) => {
-  const { fmt, esc } = Shop;
+Shop.init().then(({ boutique: b, produits }) => {
+  const { fmt, esc, card } = Shop;
   const p = produits.find((x) => x.id === new URLSearchParams(location.search).get("id"));
   const box = document.getElementById("p");
   if (!p) { box.innerHTML = `<div><h1>Produit introuvable</h1><a class="btn" href="index.html">Retour à la boutique</a></div>`; return; }
   document.title = document.title.replace("Produit", p.nom);
+  const promo = p.ancienPrix && p.ancienPrix > p.prix;
   let q = 1;
   box.innerHTML = `
-    <img src="${esc(p.image)}" alt="${esc(p.nom)}">
+    <div class="pic">${p.badge && p.stock ? `<span class="tag ${promo ? "promo" : ""}">${esc(p.badge)}</span>` : ""}<img src="${esc(p.image)}" alt="${esc(p.nom)}"></div>
     <div>
-      <a href="index.html" class="muted">← Retour à la boutique</a>
-      <div class="cat" style="margin-top:16px">${esc(p.categorie)}</div>
+      <a href="index.html#boutique" class="back">← Retour à la boutique</a>
+      <div class="cat" style="margin-top:18px">${esc(p.categorie)}</div>
       <h1>${esc(p.nom)}</h1>
-      <div class="price">${fmt(p.prix)}</div>
-      <p>${esc(p.description)}</p>
+      <div><span class="price">${fmt(p.prix)}</span>${promo ? `<span class="old">${fmt(p.ancienPrix)}</span>` : ""}</div>
+      <p class="desc">${esc(p.description)}</p>
+      ${(p.details || []).length ? `<div class="chips">${p.details.map((d) => `<span>${esc(d)}</span>`).join("")}</div>` : ""}
       ${p.stock ? `<div class="row">
         <div class="qty"><button id="m" aria-label="Moins">−</button><span id="q">1</span><button id="pl" aria-label="Plus">+</button></div>
-        <button class="btn" id="add" data-add="${esc(p.id)}" data-qty="1" style="flex:1">Ajouter au panier</button></div>` : `<p class="out">Rupture de stock</p>`}
-      <ul class="perks"><li>🔒 Paiement 100% sécurisé</li><li>🚚 Expédition sous 48 h</li><li>↩️ Retour gratuit sous 14 jours</li></ul>
+        <button class="btn" id="add" data-add="${esc(p.id)}" data-qty="1" style="flex:1">Ajouter au panier</button></div>` : `<p class="out">Ce produit est épuisé pour le moment.</p>`}
+      <div class="assure">
+        <div>🚚<span><b>Livraison suivie</b> en ${esc(b.delaiLivraison)} · offerte dès ${fmt(b.livraisonGratuiteDes)}</span></div>
+        <div>↩️<span><b>${b.retours} jours</b> pour changer d'avis</span></div>
+        <div>🔒<span><b>Paiement sécurisé</b> par carte, Apple Pay ou Google Pay</span></div>
+      </div>
     </div>`;
+  const autres = produits.filter((x) => x.id !== p.id && x.stock).slice(0, 4);
+  document.getElementById("more").innerHTML = `<div class="head"><h2>Vous aimerez aussi</h2></div><div class="grid">${autres.map(card).join("")}</div>`;
   if (!p.stock) return;
   const set = (n) => { q = Math.max(1, Math.min(99, n)); document.getElementById("q").textContent = q; document.getElementById("add").dataset.qty = q; };
   document.getElementById("m").onclick = () => set(q - 1);

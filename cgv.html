@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<title>Conditions générales de vente</title>
+</head>
+<body>
+<main class="wrap page">
+  <!-- À COMPLÉTER : remplace tout ce qui est entre [crochets]. Ces CGV sont un modèle : fais-les relire si tu as un doute. -->
+  <h1>Conditions générales de vente</h1>
+  <p class="muted">Dernière mise à jour : [date]</p>
+
+  <h3>1. Vendeur</h3>
+  <p>Les présentes conditions s'appliquent aux ventes conclues sur ce site, édité par [Prénom Nom], micro-entreprise, SIRET [numéro], [adresse], ci-après « le Vendeur ». Contact : <span data-b="email"></span>.</p>
+
+  <h3>2. Produits</h3>
+  <p>Les produits sont décrits et photographiés le plus fidèlement possible. Ils sont expédiés directement par nos partenaires logistiques, depuis [l'Union européenne / pays d'expédition]. Le Vendeur reste votre seul interlocuteur et responsable de la bonne exécution de la commande.</p>
+
+  <h3>3. Prix</h3>
+  <p>Les prix sont indiqués en euros, toutes taxes comprises [TVA non applicable, art. 293 B du CGI]. Les frais de livraison sont indiqués avant la validation du paiement. [Les produits étant expédiés depuis l'Union européenne, aucun frais de douane ne sera demandé au client.]</p>
+
+  <h3>4. Commande et paiement</h3>
+  <p>La commande est validée après le paiement en ligne par carte bancaire, Apple Pay ou Google Pay, via notre prestataire sécurisé Stripe. Un e-mail de confirmation est envoyé au client.</p>
+
+  <h3>5. Livraison</h3>
+  <p>Les produits sont livrés en France métropolitaine, Belgique, Suisse et Luxembourg, avec suivi. Délai de livraison estimé : <b data-b="delaiLivraison"></b> après la commande. Le numéro de suivi est envoyé par e-mail dès l'expédition. Conformément à l'article L216-1 du Code de la consommation, le produit est livré au plus tard 30 jours après la commande ; à défaut, le client peut annuler sa commande et être remboursé.</p>
+
+  <h3>6. Droit de rétractation</h3>
+  <p>Le client dispose de <b><span data-b="retours"></span> jours</b> à compter de la réception pour exercer son droit de rétractation, sans avoir à se justifier, en écrivant à <span data-b="email"></span> (ou en utilisant le formulaire ci-dessous). Le produit doit être retourné dans son état d'origine dans les 14 jours suivant la demande, à l'adresse communiquée par le Vendeur. Les frais de retour sont à la charge [du client / du Vendeur]. Le remboursement, frais de livraison initiaux inclus, intervient sous 14 jours après la demande, par le même moyen de paiement.</p>
+  <p class="muted"><b>Formulaire de rétractation :</b> « À l'attention de [Nom], [adresse], <span data-b="email"></span> : je notifie par la présente ma rétractation du contrat portant sur la vente du bien ci-dessous : [produit], commandé le [date] / reçu le [date], nom du client, adresse du client, date. »</p>
+
+  <h3>7. Garanties légales</h3>
+  <p>Tous les produits bénéficient de la garantie légale de conformité (articles L217-3 et suivants du Code de la consommation, 2 ans à compter de la livraison) et de la garantie des vices cachés (articles 1641 et suivants du Code civil). En cas de produit défectueux ou endommagé, contactez-nous avec une photo : nous procédons au remplacement ou au remboursement.</p>
+
+  <h3>8. Service client</h3>
+  <p>Pour toute question : <span data-b="email"></span>. Nous répondons sous 24 h ouvrées.</p>
+
+  <h3>9. Médiation et litiges</h3>
+  <p>En cas de litige non résolu, le client peut recourir gratuitement au médiateur de la consommation : [nom et site du médiateur]. Les présentes conditions sont soumises au droit français.</p>
+</main>
+<script src="app.js"></script>
+<script>Shop.init().then(({ boutique: b }) => document.querySelectorAll("[data-b]").forEach((el) => (el.textContent = b[el.dataset.b])));</script>
+</body>
+</html>
