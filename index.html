@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title></title>
+<meta name="description" content="Boutique en ligne">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="wrap">
+  <section class="hero"><h1 id="nom"></h1><p id="slogan"></p></section>
+  <div class="filters" id="filters"></div>
+  <section class="grid" id="grid"></section>
+</main>
+<script src="app.js"></script>
+<script>
+Shop.init().then(({ boutique, produits }) => {
+  const { fmt, esc } = Shop;
+  document.getElementById("nom").textContent = boutique.nom;
+  document.getElementById("slogan").textContent = boutique.slogan;
+  const cats = ["Tout", ...new Set(produits.map((p) => p.categorie))];
+  let cur = "Tout";
+  const draw = () => {
+    document.getElementById("filters").innerHTML = cats.map((c) => `<button class="${c === cur ? "on" : ""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
+    document.getElementById("grid").innerHTML = produits.filter((p) => cur === "Tout" || p.categorie === cur).map((p) => `
+      <article class="card">
+        <a class="img" href="produit.html?id=${encodeURIComponent(p.id)}"><img src="${esc(p.image)}" alt="${esc(p.nom)}" loading="lazy"></a>
+        <div class="body">
+          <span class="cat">${esc(p.categorie)}</span>
+          <h3><a href="produit.html?id=${encodeURIComponent(p.id)}">${esc(p.nom)}</a></h3>
+          <span class="price">${fmt(p.prix)}</span>
+          ${p.stock ? `<button class="btn" data-add="${esc(p.id)}">Ajouter au panier</button>` : `<span class="out">Rupture de stock</span><button class="btn" disabled>Indisponible</button>`}
+        </div>
+      </article>`).join("");
+  };
+  document.getElementById("filters").addEventListener("click", (e) => { if (e.target.dataset.cat) { cur = e.target.dataset.cat; draw(); } });
+  draw();
+});
+</script>
+</body>
+</html>

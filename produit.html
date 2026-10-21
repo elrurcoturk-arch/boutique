@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Produit</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="wrap"><section class="product" id="p"></section></main>
+<script src="app.js"></script>
+<script>
+Shop.init().then(({ produits }) => {
+  const { fmt, esc } = Shop;
+  const p = produits.find((x) => x.id === new URLSearchParams(location.search).get("id"));
+  const box = document.getElementById("p");
+  if (!p) { box.innerHTML = `<div><h1>Produit introuvable</h1><a class="btn" href="index.html">Retour à la boutique</a></div>`; return; }
+  document.title = document.title.replace("Produit", p.nom);
+  let q = 1;
+  box.innerHTML = `
+    <img src="${esc(p.image)}" alt="${esc(p.nom)}">
+    <div>
+      <a href="index.html" class="muted">← Retour à la boutique</a>
+      <div class="cat" style="margin-top:16px">${esc(p.categorie)}</div>
+      <h1>${esc(p.nom)}</h1>
+      <div class="price">${fmt(p.prix)}</div>
+      <p>${esc(p.description)}</p>
+      ${p.stock ? `<div class="row">
+        <div class="qty"><button id="m" aria-label="Moins">−</button><span id="q">1</span><button id="pl" aria-label="Plus">+</button></div>
+        <button class="btn" id="add" data-add="${esc(p.id)}" data-qty="1" style="flex:1">Ajouter au panier</button></div>` : `<p class="out">Rupture de stock</p>`}
+      <ul class="perks"><li>🔒 Paiement 100% sécurisé</li><li>🚚 Expédition sous 48 h</li><li>↩️ Retour gratuit sous 14 jours</li></ul>
+    </div>`;
+  if (!p.stock) return;
+  const set = (n) => { q = Math.max(1, Math.min(99, n)); document.getElementById("q").textContent = q; document.getElementById("add").dataset.qty = q; };
+  document.getElementById("m").onclick = () => set(q - 1);
+  document.getElementById("pl").onclick = () => set(q + 1);
+});
+</script>
+</body>
+</html>

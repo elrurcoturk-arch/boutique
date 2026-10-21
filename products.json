@@ -1,0 +1,19 @@
+{
+  "boutique": {
+    "nom": "Ma Boutique",
+    "slogan": "Des produits de qualité, livrés chez vous",
+    "devise": "eur",
+    "email": "contact@maboutique.fr",
+    "livraisonGratuiteDes": 50,
+    "fraisLivraison": 4.9,
+    "paysLivraison": ["FR", "BE", "CH", "LU"]
+  },
+  "produits": [
+    { "id": "tshirt-classique", "nom": "T-shirt Classique", "prix": 24.9, "categorie": "Vêtements", "image": "images/tshirt.svg", "description": "T-shirt 100% coton bio, coupe droite, doux et résistant. Idéal au quotidien.", "stock": true },
+    { "id": "sweat-capuche", "nom": "Sweat à capuche", "prix": 49.9, "categorie": "Vêtements", "image": "images/sweat.svg", "description": "Sweat molletonné avec capuche et poche kangourou. Chaud et confortable.", "stock": true },
+    { "id": "casquette", "nom": "Casquette brodée", "prix": 19.9, "categorie": "Accessoires", "image": "images/casquette.svg", "description": "Casquette ajustable avec logo brodé. Taille unique.", "stock": true },
+    { "id": "mug", "nom": "Mug céramique", "prix": 14.9, "categorie": "Maison", "image": "images/mug.svg", "description": "Mug en céramique 330 ml, passe au lave-vaisselle et au micro-ondes.", "stock": true },
+    { "id": "tote-bag", "nom": "Tote bag", "prix": 12.9, "categorie": "Accessoires", "image": "images/totebag.svg", "description": "Sac en toile épaisse, grand format, anses longues.", "stock": true },
+    { "id": "bougie", "nom": "Bougie parfumée", "prix": 22.0, "categorie": "Maison", "image": "images/bougie.svg", "description": "Bougie en cire végétale, 40 heures de combustion, parfum vanille.", "stock": false }
+  ]
+}
