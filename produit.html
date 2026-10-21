@@ -15,7 +15,7 @@
 <script src="app.js"></script>
 <script>
 Shop.init().then(({ boutique: b, produits }) => {
-  const { fmt, esc, card } = Shop;
+  const { fmt, esc, img, card } = Shop;
   const p = produits.find((x) => x.id === new URLSearchParams(location.search).get("id"));
   const box = document.getElementById("p");
   if (!p) { box.innerHTML = `<div><h1>Produit introuvable</h1><a class="btn" href="index.html">Retour à la boutique</a></div>`; return; }
@@ -23,7 +23,7 @@ Shop.init().then(({ boutique: b, produits }) => {
   const promo = p.ancienPrix && p.ancienPrix > p.prix;
   let q = 1;
   box.innerHTML = `
-    <div class="pic reveal in">${p.badge && p.stock ? `<span class="tag ${promo ? "promo" : ""}">${esc(p.badge)}</span>` : ""}<img src="${esc(p.image)}" alt="${esc(p.nom)}"></div>
+    <div class="pic reveal in">${p.badge && p.stock ? `<span class="tag ${promo ? "promo" : ""}">${esc(p.badge)}</span>` : ""}${img(p)}</div>
     <div>
       <a href="index.html#boutique" class="back">← Retour à la boutique</a>
       <div class="cat" style="margin-top:18px">${esc(p.categorie)}</div>

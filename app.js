@@ -47,6 +47,9 @@ const Shop = (() => {
     return { lines, sub, ship, total: sub + ship, count: lines.reduce((s, l) => s + l.q, 0) };
   };
 
+  // Photo du produit, avec repli sur l'illustration si elle ne charge pas.
+  const img = (p, extra = "") => `<img src="${esc(p.image)}" alt="${esc(p.nom)}" ${extra} onerror="this.onerror=null;this.src='${esc(p.imageSecours || "images/hero.svg")}'">`;
+
   // Carte produit réutilisée par l'accueil et la fiche produit.
   const card = (p) => {
     const url = `produit.html?id=${encodeURIComponent(p.id)}`;
@@ -54,7 +57,7 @@ const Shop = (() => {
     const tag = !p.stock ? `<span class="tag">Épuisé</span>` : p.badge ? `<span class="tag ${promo ? "promo" : ""}">${esc(p.badge)}</span>` : "";
     const btn = (cls) => p.stock ? `<button class="btn dark ${cls}" data-add="${esc(p.id)}">Ajouter au panier</button>` : "";
     return `<article class="card reveal">
-      <a class="img" href="${url}">${tag}<img src="${esc(p.image)}" alt="${esc(p.nom)}" loading="lazy">${btn("quick")}</a>
+      <a class="img" href="${url}">${tag}${img(p, 'loading="lazy"')}${btn("quick")}</a>
       <div class="body">
         <div class="cat">${esc(p.categorie)}</div>
         <h3><a href="${url}">${esc(p.nom)}</a></h3>
@@ -76,7 +79,7 @@ const Shop = (() => {
       : "";
     box.innerHTML = t.lines.length ? t.lines.map(({ p, q }) => `
       <div class="item">
-        <img src="${esc(p.image)}" alt="">
+        ${img(p)}
         <div><div class="n">${esc(p.nom)}</div><div class="muted">${fmt(p.prix)}</div>
           <div class="qty" style="margin-top:8px"><button data-dec="${esc(p.id)}" aria-label="Moins">−</button><span>${q}</span><button data-inc="${esc(p.id)}" aria-label="Plus">+</button></div></div>
         <div style="text-align:right"><div class="n">${fmt(p.prix * q)}</div><button class="rm" data-rm="${esc(p.id)}">Retirer</button></div>
@@ -156,5 +159,5 @@ const Shop = (() => {
     return data;
   };
 
-  return { init, fmt, esc, card, clear, openCart, reveal };
+  return { init, fmt, esc, img, card, clear, openCart, reveal };
 })();

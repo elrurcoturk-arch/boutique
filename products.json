@@ -18,120 +18,128 @@
   "produits": [
     {
       "id": "bougie-vanille",
-      "nom": "Bougie Vanille & Ambre",
+      "nom": "Bougie Parfumée Vanille & Ambre",
       "prix": 24.9,
       "ancienPrix": 29.9,
       "badge": "Best-seller",
       "categorie": "Bougies",
-      "image": "images/bougie.svg",
+      "image": "https://images.unsplash.com/photo-1617041261380-15cf80c39f26?auto=format&fit=crop&w=800&h=800&q=75",
       "description": "Bougie en cire de soja, mèche en coton, 45 heures de combustion. Notes chaudes de vanille de Madagascar et d'ambre.",
       "details": [
         "Cire 100 % végétale",
         "Pot en verre réutilisable",
         "220 g · 45 h"
       ],
-      "stock": true
+      "stock": true,
+      "imageSecours": "images/bougie.svg"
     },
     {
       "id": "mug-sauge",
-      "nom": "Mug Céramique Sauge",
+      "nom": "Mug Céramique Blanc",
       "prix": 18.0,
       "badge": "Nouveau",
       "categorie": "Art de la table",
-      "image": "images/mug.svg",
-      "description": "Mug en grès émaillé aux finitions mates, agréable en main.",
+      "image": "https://images.unsplash.com/photo-1616241673111-508b4662c707?auto=format&fit=crop&w=800&h=800&q=75",
+      "description": "Mug en grès émaillé blanc aux finitions mates, agréable en main.",
       "details": [
         "Grès émaillé",
         "350 ml",
         "Lave-vaisselle et micro-ondes"
       ],
-      "stock": true
+      "stock": true,
+      "imageSecours": "images/mug.svg"
     },
     {
       "id": "vase-terracotta",
-      "nom": "Vase Terracotta",
+      "nom": "Trio de Vases Terracotta",
       "prix": 39.0,
       "categorie": "Déco",
-      "image": "images/vase.svg",
-      "description": "Vase aux courbes douces en terre cuite, parfait pour les fleurs séchées. Fleurs non incluses.",
+      "image": "https://images.unsplash.com/photo-1631125915902-d8abe9225ff2?auto=format&fit=crop&w=800&h=800&q=75",
+      "description": "Trois vases en terre cuite aux formes douces, parfaits pour les fleurs séchées. Fleurs non incluses.",
       "details": [
         "Terre cuite émaillée intérieur",
         "Hauteur 24 cm",
         "Étanche"
       ],
-      "stock": true
+      "stock": true,
+      "imageSecours": "images/vase.svg"
     },
     {
       "id": "plaid-laine",
-      "nom": "Plaid Rayé en Laine",
+      "nom": "Plaid en Maille Douce",
       "prix": 69.0,
       "ancienPrix": 85.0,
       "badge": "-19 %",
       "categorie": "Textile",
-      "image": "images/plaid.svg",
-      "description": "Plaid épais et doux, tissé en laine recyclée. Idéal pour les soirées d'hiver sur le canapé.",
+      "image": "https://images.unsplash.com/photo-1600369672770-985fd30004eb?auto=format&fit=crop&w=800&h=800&q=75",
+      "description": "Plaid épais en grosse maille, doux et chaud. Idéal pour les soirées d'hiver sur le canapé.",
       "details": [
-        "70 % laine recyclée",
+        "Grosse maille",
         "130 × 170 cm",
         "Lavage délicat 30°"
       ],
-      "stock": true
+      "stock": true,
+      "imageSecours": "images/plaid.svg"
     },
     {
       "id": "diffuseur",
       "nom": "Diffuseur Bois de Cèdre",
       "prix": 32.0,
       "categorie": "Bougies",
-      "image": "images/diffuseur.svg",
+      "image": "https://images.unsplash.com/photo-1750433101188-8284e112d250?auto=format&fit=crop&w=800&h=800&q=75",
       "description": "Diffuseur à bâtonnets pour parfumer votre intérieur pendant 3 mois, sans flamme.",
       "details": [
         "100 ml · 8 bâtonnets en rotin",
         "Environ 3 mois"
       ],
-      "stock": true
+      "stock": true,
+      "imageSecours": "images/diffuseur.svg"
     },
     {
       "id": "coussin-soleil",
-      "nom": "Coussin Soleil",
+      "nom": "Coussin Bouclette Blanc",
       "prix": 34.0,
       "badge": "Nouveau",
       "categorie": "Textile",
-      "image": "images/coussin.svg",
-      "description": "Housse de coussin en coton brodé, couleur moutarde, avec garnissage moelleux.",
+      "image": "https://images.unsplash.com/photo-1629949009765-40fc74c9ec21?auto=format&fit=crop&w=800&h=800&q=75",
+      "description": "Coussin en tissu bouclette blanc, très doux au toucher, avec garnissage moelleux.",
       "details": [
-        "100 % coton",
+        "Tissu bouclette",
         "45 × 45 cm",
         "Housse déhoussable"
       ],
-      "stock": true
+      "stock": true,
+      "imageSecours": "images/coussin.svg"
     },
     {
       "id": "carafe",
-      "nom": "Carafe & Verre",
+      "nom": "Carafe en Verre",
       "prix": 29.0,
       "categorie": "Art de la table",
-      "image": "images/carafe.svg",
+      "image": "https://images.unsplash.com/photo-1775202313737-abaabb5a3eca?auto=format&fit=crop&w=800&h=800&q=75",
       "description": "Carafe en verre soufflé avec son verre assorti, pour la table de chevet ou le bureau.",
       "details": [
-        "Verre borosilicaté",
-        "1 L + verre 25 cl",
+        "Verre",
+        "1 L",
         "Lave-vaisselle"
       ],
-      "stock": true
+      "stock": true,
+      "imageSecours": "images/carafe.svg"
     },
     {
       "id": "tote-bag",
       "nom": "Tote Bag NOVA",
       "prix": 15.0,
       "categorie": "Déco",
-      "image": "images/totebag.svg",
+      "image": "https://images.unsplash.com/photo-1574365569389-a10d488ca3fb?auto=format&fit=crop&w=800&h=800&q=75",
       "description": "Grand sac en toile de coton épaisse, pour le marché ou le quotidien.",
       "details": [
         "Coton bio 340 g/m²",
         "38 × 42 cm",
         "Anses longues"
       ],
-      "stock": false
+      "stock": false,
+      "imageSecours": "images/totebag.svg"
     }
   ]
 }
